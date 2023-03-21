@@ -7,10 +7,13 @@ jobs:
   notify:
     name: Slack notify
     runs-on: ubuntu-latest
+    env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
     steps:
-      - uses: slackapi/slack-github-action@v1.22.0
+      - name: Preview
+        uses: slackapi/slack-github-action@v1.22.0
         with:
-            channel-id: "C04UXTP6JG3"
+          channel-id: "C04UXTP6JG3"
           payload: |
             {
               "attachments": [
@@ -36,5 +39,3 @@ jobs:
                 }
               ]
             }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
