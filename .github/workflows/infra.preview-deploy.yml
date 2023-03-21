@@ -18,6 +18,8 @@ jobs:
     preview:
         name: Preview
         runs-on: ubuntu-latest
+        outputs:
+            TF_PLAN_EXITCODE: ${{ steps.plan.outputs.exitcode }}
         env:
             AWS_REGION: ap-northeast-1
             TF_VERSION: 1.2.8
@@ -54,6 +56,8 @@ jobs:
                   terraform validate -no-color
 
             - name: Terraform plan
+              continue-on-error: true
+              id: plan
               run: |
                   terraform plan \
                     -var 'project=${{ env.TF_PROJECT }}' \
@@ -63,3 +67,33 @@ jobs:
                     -input=false \
                     -no-color \
                     -detailed-exitcode
+
+            - name: Slack notify
+              uses: slackapi/slack-github-action@v1.22.0
+              with:
+                  channel-id: "C04UXTP6JG3"
+                  payload: |
+                    {
+                      "attachments": [
+                        {
+                          "color": "#0068B7",
+                          "blocks": [
+                            {
+                              "type": "header",
+                              "text": {
+                                "type": "plain_text",
+                                "text": "Request for approve",
+                                "emoji": true
+                              }
+                            },
+                            {
+                              "type": "section",
+                              "text": {
+                                "type": "mrkdwn",
+                                "text": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
