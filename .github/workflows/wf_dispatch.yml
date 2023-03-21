@@ -18,8 +18,3 @@ jobs:
               echo "${GITHUB_ACTION}"
               echo "${GITHUB_ENV}"
               echo "${GITHUB_STEP_SUMMARY}"
-            - run: |
-              echo "${{ secrets.SS_SEC_1 }}"
-              echo "${{ sssec }}"
-            - with:
-                sssec: ${{ secrets.SS_SEC_1 }}
