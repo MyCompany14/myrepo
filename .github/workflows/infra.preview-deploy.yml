@@ -9,14 +9,6 @@ on:
             - .github/workflows/**
     workflow_dispatch:
 
-permissions:
-    id-token: write
-    contents: read
-
-env:
-    AWS_REGION: ap-northeast-1
-    TF_VERSION: 1.2.8
-
 defaults:
     run:
         shell: bash
@@ -26,6 +18,12 @@ jobs:
     preview:
         name: Preview
         runs-on: ubuntu-latest
+        env:
+            AWS_REGION: ap-northeast-1
+            TF_VERSION: 1.2.8
+        permissions:
+            id-token: write
+            contents: read
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
