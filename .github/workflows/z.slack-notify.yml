@@ -5,7 +5,7 @@ on:
 
 jobs:
     notify:
-        name: Slack notify
+        name: "Slack notify"
         runs-on: ubuntu-latest
         steps:
             - name: Slack notify
